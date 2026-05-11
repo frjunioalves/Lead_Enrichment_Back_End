@@ -9,7 +9,8 @@ export const enrichLeadSchema = z.object({
   telefone: z
     .string()
     .min(1, 'Telefone é obrigatório.')
-    .regex(/^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/, 'Telefone inválido.'),
+    // Aceita: (86) 9430-8512 | (86) 99430-8512 | (86) 9 9430-8512 | 11912345678
+    .regex(/^\(?\d{2}\)?\s?(?:\d{4,5}|\d\s\d{4})-?\d{4}$/, 'Telefone inválido.'),
   // sanitizeCNPJ antes de validateCNPJ permite aceitar CNPJ formatado (XX.XXX.XXX/XXXX-XX)
   cnpj: z
     .string()
