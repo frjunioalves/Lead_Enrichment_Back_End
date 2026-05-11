@@ -14,9 +14,11 @@ export interface EnrichedCompany {
   faixaFuncionarios: string;
   endereco: {
     logradouro: string | null;
+    bairro: string | null;
     municipio: string | null;
     uf: string | null;
     cep: string | null;
+    fuso: string | null;
   };
   telefone: string | null;
   email: string | null;

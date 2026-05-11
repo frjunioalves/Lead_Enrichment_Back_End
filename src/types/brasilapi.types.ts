@@ -81,3 +81,19 @@ export interface BrasilApiCNPJResponse {
   descricao_motivo_situacao_cadastral: string;
   descricao_identificador_matriz_filial: string;
 }
+
+export interface BrasilApiCEPResponse {
+  cep: string;
+  state: string;
+  city: string;
+  neighborhood: string | null;
+  street: string | null;
+  timezoneName: string | null;
+  location: {
+    type: string;
+    coordinates: {
+      longitude: string;
+      latitude: string;
+    };
+  } | null;
+}

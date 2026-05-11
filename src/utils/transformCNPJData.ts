@@ -1,6 +1,11 @@
 // Transforma a resposta bruta da BrasilAPI para o formato enriquecido da aplicação
-import type { BrasilApiCNPJResponse } from '../types/brasilapi.types.js';
+import type { BrasilApiCNPJResponse, BrasilApiCEPResponse } from '../types/brasilapi.types.js';
 import type { EnrichedCompany } from '../types/enriched.types.js';
+
+function formatCEP(cep: string): string {
+  const d = cep.replace(/\D/g, '').padStart(8, '0');
+  return `${d.slice(0, 5)}-${d.slice(5)}`;
+}
 
 // Formata string numérica de CNPJ para o padrão XX.XXX.XXX/XXXX-XX
 function formatCNPJ(cnpj: string): string {
@@ -79,7 +84,7 @@ function toTitleCase(str: string): string {
 }
 
 // Ponto de entrada do módulo — converte o payload bruto da BrasilAPI para EnrichedCompany
-export function transformCNPJData(raw: BrasilApiCNPJResponse): EnrichedCompany {
+export function transformCNPJData(raw: BrasilApiCNPJResponse, cep?: BrasilApiCEPResponse): EnrichedCompany {
   return {
     cnpj: formatCNPJ(raw.cnpj),
     razaoSocial: raw.razao_social,
@@ -93,10 +98,12 @@ export function transformCNPJData(raw: BrasilApiCNPJResponse): EnrichedCompany {
     segmento: mapCNAEToSegmento(raw.cnae_fiscal),
     faixaFuncionarios: mapPorte(raw.porte),
     endereco: {
-      logradouro: raw.logradouro || null,
-      municipio: raw.municipio || null,
-      uf: raw.uf || null,
-      cep: raw.cep || null,
+      logradouro: cep?.street ?? raw.logradouro ?? null,
+      bairro: cep?.neighborhood ?? raw.bairro ?? null,
+      municipio: cep?.city ?? raw.municipio ?? null,
+      uf: cep?.state ?? raw.uf ?? null,
+      cep: raw.cep ? formatCEP(raw.cep) : null,
+      fuso: cep?.timezoneName ?? null,
     },
     telefone: formatPhone(raw.ddd_telefone_1),
     email: raw.email || null,
