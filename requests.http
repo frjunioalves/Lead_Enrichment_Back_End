@@ -1,0 +1,39 @@
+### Configurações Variáveis
+@baseUrl = http://localhost:3000
+
+# ==========================================
+# ROTA DE ENRIQUECIMENTO DE LEADS
+# ==========================================
+
+### Sucesso: Enriquecer Lead
+POST {{baseUrl}}/api/leads/enrich
+Content-Type: application/json
+
+{
+  "nome": "João Silva",
+  "email": "joao@exemplo.com",
+  "telefone": "(11) 98765-4321",
+  "cnpj": "45.973.431/0001-72"
+}
+
+### Erro de Validação (Zod): Campos Faltando ou Inválidos
+# Note como o errorHandler retornará uma lista de erros
+POST {{baseUrl}}/api/leads/enrich
+Content-Type: application/json
+
+{
+  "nome": "",
+  "email": "email-invalido",
+  "telefone": "123",
+  "cnpj": "123"
+}
+
+# ==========================================
+# ROTA DE CONSULTA DIRETA DE CNPJ
+# ==========================================
+
+### Consulta de CNPJ Válido
+GET {{baseUrl}}/cnpj/12345678000195
+
+### Consulta de CNPJ Inexistente ou Formato Inválido
+GET {{baseUrl}}/cnpj/00000000000000

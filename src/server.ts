@@ -1,3 +1,4 @@
+// Ponto de entrada da aplicação — configura middlewares, rotas e inicia o servidor HTTP
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
@@ -10,9 +11,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Rotas de domínio
 app.use('/cnpj', cnpjRoutes);
 app.use('/api/leads', leadRoutes);
 
+// Middleware de erros deve ser registrado após todas as rotas
 app.use(errorHandler);
 
 const PORT = process.env['PORT'] ?? 3000;

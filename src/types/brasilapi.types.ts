@@ -1,3 +1,6 @@
+// Tipos que espelham o contrato da BrasilAPI (endpoint /cnpj/v1/:cnpj)
+// Campos opcionais são null quando não preenchidos na Receita Federal
+
 interface QSAMember {
   pais: string | null;
   nome_socio: string;

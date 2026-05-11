@@ -1,11 +1,14 @@
+// Transforma a resposta bruta da BrasilAPI para o formato enriquecido da aplicação
 import type { BrasilApiCNPJResponse } from '../types/brasilapi.types.js';
 import type { EnrichedCompany } from '../types/enriched.types.js';
 
+// Formata string numérica de CNPJ para o padrão XX.XXX.XXX/XXXX-XX
 function formatCNPJ(cnpj: string): string {
   const d = cnpj.replace(/\D/g, '').padStart(14, '0');
   return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8, 12)}-${d.slice(12, 14)}`;
 }
 
+// Converte data ISO (YYYY-MM-DD) para o formato brasileiro (dd/mm/yyyy)
 function formatDate(dateStr: string | null): string | null {
   if (!dateStr) return null;
   const [year, month, day] = dateStr.split('-');
@@ -13,18 +16,23 @@ function formatDate(dateStr: string | null): string | null {
   return `${day}/${month}/${year}`;
 }
 
+// Formata o campo ddd_telefone_1 da BrasilAPI para (XX) XXXXX-XXXX ou (XX) XXXX-XXXX
 function formatPhone(dddPhone: string | null): string | null {
   if (!dddPhone) return null;
   const digits = dddPhone.replace(/\D/g, '');
   if (digits.length === 11) {
+    // Celular: 11 dígitos com 9 na frente
     return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
   }
   if (digits.length === 10) {
+    // Fixo: 10 dígitos
     return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
   }
+  // Retorna como recebido se não se encaixa nos formatos esperados
   return dddPhone;
 }
 
+// Mapa de porte (código Receita Federal) para faixa de funcionários legível
 const PORTE_MAP: Record<string, string> = {
   ME: 'Microempresa (até 9 funcionários)',
   EPP: 'Empresa de Pequeno Porte (10 a 49 funcionários)',
@@ -37,7 +45,8 @@ function mapPorte(porte: string | null): string {
   return PORTE_MAP[porte] ?? 'Não informado';
 }
 
-// Maps CNAE division (first 2 digits of the 7-digit code) to a market segment (IBGE sections A–U)
+// Mapeia a divisão do CNAE (2 primeiros dígitos do código de 7 dígitos) ao segmento de mercado
+// seguindo as seções A–U da classificação IBGE/CONCLA
 function mapCNAEToSegmento(cnaeFiscal: number): string {
   const division = Math.floor(cnaeFiscal / 100000);
   if (division >= 1 && division <= 3) return 'Agronegócio';
@@ -64,10 +73,12 @@ function mapCNAEToSegmento(cnaeFiscal: number): string {
   return 'Não classificado';
 }
 
+// A BrasilAPI retorna strings em maiúsculas; converte para Title Case para exibição
 function toTitleCase(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
+// Ponto de entrada do módulo — converte o payload bruto da BrasilAPI para EnrichedCompany
 export function transformCNPJData(raw: BrasilApiCNPJResponse): EnrichedCompany {
   return {
     cnpj: formatCNPJ(raw.cnpj),

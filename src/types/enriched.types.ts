@@ -1,5 +1,7 @@
+// Tipos do domínio da aplicação — resultado do enriquecimento de dados de uma empresa
+
 export interface EnrichedCompany {
-  cnpj: string;
+  cnpj: string; // Formato XX.XXX.XXX/XXXX-XX
   razaoSocial: string;
   nomeFantasia: string | null;
   situacaoCadastral: string;
