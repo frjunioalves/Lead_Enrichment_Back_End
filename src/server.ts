@@ -7,11 +7,14 @@ import leadRoutes from './routes/lead.routes.js';
 import leadHistoryRoutes from './routes/leadHistory.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import { errorHandler } from './middlewares/errorHandler.js';
+import { setupSwagger } from './docs/index.js';
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+setupSwagger(app);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/leads', leadRoutes);

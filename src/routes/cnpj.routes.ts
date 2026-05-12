@@ -2,7 +2,7 @@
 import { Router } from 'express';
 import { getCNPJ } from '../controllers/cnpj.controller.js';
 
-const router = Router();
+const router: Router = Router();
 
 // GET /cnpj/:cnpj — retorna dados brutos da Receita Federal para o CNPJ informado
 router.get('/:cnpj', getCNPJ);
