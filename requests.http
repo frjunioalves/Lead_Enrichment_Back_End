@@ -1,11 +1,76 @@
 ### Configurações Variáveis
-@baseUrl = http://localhost:3000
+@baseUrl = https://lead-enricher-back-end-ezbthybfcdf2fcbt.brazilsouth-01.azurewebsites.net
+@token = <cole_aqui_o_token_retornado_pelo_login>
+
+# ==========================================
+# ROTAS DE AUTENTICAÇÃO
+# ==========================================
+
+### Registrar Usuário
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "nome": "João Silva",
+  "email": "joao@exemplo.com",
+  "senha": "senha123"
+}
+
+###
+
+### Registrar Usuário — Erro de Validação
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "nome": "J",
+  "email": "email-invalido",
+  "senha": "123"
+}
+
+###
+
+### Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "joao@exemplo.com",
+  "senha": "senha123"
+}
+
+###
+
+### Login — Credenciais Inválidas
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "naoexiste@exemplo.com",
+  "senha": "senhaerrada"
+}
+
+###
 
 # ==========================================
 # ROTA DE ENRIQUECIMENTO DE LEADS
 # ==========================================
 
-### Sucesso: Enriquecer Lead
+### Enriquecer Lead (autenticado)
+POST {{baseUrl}}/api/leads/enrich
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nome": "João Silva",
+  "email": "joao@exemplo.com",
+  "telefone": "(11) 98765-4321",
+  "cnpj": "45.973.431/0001-72"
+}
+
+###
+
+### Enriquecer Lead — Sem Token (deve retornar 401)
 POST {{baseUrl}}/api/leads/enrich
 Content-Type: application/json
 
@@ -16,10 +81,12 @@ Content-Type: application/json
   "cnpj": "45.973.431/0001-72"
 }
 
-### Erro de Validação (Zod): Campos Faltando ou Inválidos
-# Note como o errorHandler retornará uma lista de erros
+###
+
+### Enriquecer Lead — Erro de Validação
 POST {{baseUrl}}/api/leads/enrich
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "nome": "",
@@ -28,12 +95,31 @@ Content-Type: application/json
   "cnpj": "123"
 }
 
+###
+
+# ==========================================
+# ROTA DE HISTÓRICO DE LEADS
+# ==========================================
+
+### Listar Histórico do Usuário (autenticado)
+GET {{baseUrl}}/api/leads/history
+Authorization: Bearer {{token}}
+
+###
+
+### Listar Histórico — Sem Token (deve retornar 401)
+GET {{baseUrl}}/api/leads/history
+
+###
+
 # ==========================================
 # ROTA DE CONSULTA DIRETA DE CNPJ
 # ==========================================
 
 ### Consulta de CNPJ Válido
-GET {{baseUrl}}/cnpj/12345678000195
+GET {{baseUrl}}/cnpj/45973431000172
 
-### Consulta de CNPJ Inexistente ou Formato Inválido
+###
+
+### Consulta de CNPJ Inexistente
 GET {{baseUrl}}/cnpj/00000000000000
