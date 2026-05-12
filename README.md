@@ -18,26 +18,47 @@ API REST que recebe dados de um lead com CNPJ, consulta a BrasilAPI, enriquece a
 
 ## Pré-requisitos
 
-- Node.js 20+
 - Docker e Docker Compose
 
-## Instalação
+## Como rodar
 
-### 1. Suba o banco de dados
+### Opção A — Docker (recomendado)
+
+Sobe PostgreSQL + API em um único comando. As migrations rodam automaticamente no startup.
 
 ```bash
-docker compose up -d
+docker compose up --build
 ```
 
-Isso sobe PostgreSQL na porta **5433**.
+| Serviço | Porta no host |
+|---|---|
+| API (Express) | `3000` |
+| PostgreSQL | `5433` |
 
-### 2. Configure as variáveis de ambiente
+Para sobrescrever credenciais ou o JWT secret, crie um `.env` antes de subir:
+
+```env
+POSTGRES_USER=enrichleads
+POSTGRES_PASSWORD=enrichleads
+POSTGRES_DB=enrichleads
+JWT_SECRET=troque_por_um_segredo_forte
+```
+
+### Opção B — Desenvolvimento local
+
+#### 1. Suba apenas o banco
+
+```bash
+docker compose up -d postgres
+```
+
+#### 2. Configure as variáveis de ambiente
 
 ```bash
 cp .env.example .env
 ```
 
-Edite `.env`:
+`.env`:
 
 ```env
 PORT=3000
@@ -49,13 +70,15 @@ BRASILAPI_URL=https://brasilapi.com.br/api/
 BRASILAPI_TIMEOUT_MS=5000
 ```
 
-### 3. Instale dependências e rode as migrations
+#### 3. Instale dependências e rode as migrations
 
 ```bash
 npm install
 npx prisma migrate dev
 npm run dev
 ```
+
+A API estará disponível em `http://localhost:3000`.
 
 ## Comandos
 

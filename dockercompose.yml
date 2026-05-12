@@ -11,6 +11,27 @@ services:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-enrichleads}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    container_name: enrichleads_api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-enrichleads}:${POSTGRES_PASSWORD:-enrichleads}@postgres:5432/${POSTGRES_DB:-enrichleads}
+      JWT_SECRET: ${JWT_SECRET:-changeme_in_production}
+      BRASILAPI_URL: https://brasilapi.com.br/api/
+      BRASILAPI_TIMEOUT_MS: 5000
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 volumes:
   postgres_data:
