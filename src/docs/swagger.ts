@@ -1,5 +1,7 @@
 import type { OpenAPIV3 } from 'openapi-types';
 
+const serverUrl = process.env['API_URL'] ?? 'http://localhost:3000';
+
 export const swaggerSpec: OpenAPIV3.Document = {
   openapi: '3.0.3',
   info: {
@@ -8,7 +10,7 @@ export const swaggerSpec: OpenAPIV3.Document = {
     description:
       'API para cadastro de usuários, autenticação JWT e enriquecimento de dados de leads via CNPJ (BrasilAPI).',
   },
-  servers: [{ url: 'http://localhost:3000', description: 'Servidor local' }],
+  servers: [{ url: serverUrl }],
   components: {
     securitySchemes: {
       bearerAuth: {
