@@ -15,6 +15,7 @@ API REST que recebe dados de um lead com CNPJ, consulta a BrasilAPI, enriquece a
 | bcryptjs | 3 | Hash de senhas |
 | Zod | 4 | Validação de entrada |
 | Axios | 1 | Cliente HTTP para BrasilAPI |
+| Swagger (swagger-jsdoc + swagger-ui-express) | — | Documentação interativa da API |
 
 ## Pré-requisitos
 
@@ -87,6 +88,16 @@ A API estará disponível em `http://localhost:3000`.
 | `npm run dev` | Inicia com tsx watch (HMR) |
 | `npm run build` | Compila TypeScript para `dist/` |
 | `npm run start` | Executa o build de produção |
+
+## Documentação
+
+A API é documentada com **Swagger** (OpenAPI 3.0), gerado via `swagger-jsdoc` a partir das anotações JSDoc nos arquivos de rota, e servido pelo `swagger-ui-express`.
+
+Acesse a documentação interativa em:
+
+> **[https://lead-enricher-back-end-ezbthybfcdf2fcbt.brazilsouth-01.azurewebsites.net/api/docs/](https://lead-enricher-back-end-ezbthybfcdf2fcbt.brazilsouth-01.azurewebsites.net/api/docs/)**
+
+Em ambiente local, a UI fica disponível em `http://localhost:3000/api/docs/` após subir a API.
 
 ## Endpoints
 
@@ -197,6 +208,6 @@ Entre 10 e 15 horas.
 
 ## Se você tivesse mais tempo, o que teria feito?
 
-- Teria feito uma documentação melhor, listando os requisitos, e aplicado de forma mais adequada os conceitos de Gitflow.
-- **Testes automatizados**: testes de integração com Supertest + banco em memória.
+- Teria listado os requisitos de forma mais detalhada e aplicado de forma mais adequada os conceitos de Gitflow.
+- **Testes automatizados**.
 - **Refresh token**: o JWT expira em 7 dias sem renovação automática; implementaria um fluxo de refresh para manter a sessão ativa de forma segura.
