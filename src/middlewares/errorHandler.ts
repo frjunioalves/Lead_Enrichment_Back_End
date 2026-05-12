@@ -1,7 +1,7 @@
 // Middleware de erros centralizado — deve ser o último `app.use()` registrado no Express
 import type { Request, Response, NextFunction } from 'express';
 import { ZodError } from 'zod';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '../generated/prisma/client.js';
 import { AppError } from '../errors/AppError.js';
 
 export function errorHandler(
