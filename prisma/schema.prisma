@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String        @id @default(uuid())
+  nome      String
+  email     String        @unique
+  senha     String
+  criadoEm DateTime      @default(now()) @map("criado_em")
+  historicos LeadHistory[]
+
+  @@map("users")
+}
+
+model LeadHistory {
+  id                       String   @id @default(uuid())
+  userId                   String   @map("user_id")
+  leadNome                 String   @map("lead_nome")
+  leadEmail                String   @map("lead_email")
+  leadTelefone             String   @map("lead_telefone")
+  empresaCnpj              String   @map("empresa_cnpj")
+  empresaRazaoSocial       String   @map("empresa_razao_social")
+  empresaNomeFantasia      String?  @map("empresa_nome_fantasia")
+  empresaSituacaoCadastral String   @map("empresa_situacao_cadastral")
+  empresaDataAbertura      String?  @map("empresa_data_abertura")
+  empresaCnaeCodigo        Int      @map("empresa_cnae_codigo")
+  empresaCnaeDescricao     String   @map("empresa_cnae_descricao")
+  empresaSegmento          String   @map("empresa_segmento")
+  empresaFaixaFuncionarios String   @map("empresa_faixa_funcionarios")
+  empresaLogradouro        String?  @map("empresa_logradouro")
+  empresaBairro            String?  @map("empresa_bairro")
+  empresaMunicipio         String?  @map("empresa_municipio")
+  empresaUf                String?  @map("empresa_uf")
+  empresaCep               String?  @map("empresa_cep")
+  empresaFuso              String?  @map("empresa_fuso")
+  empresaTelefone          String?  @map("empresa_telefone")
+  empresaEmail             String?  @map("empresa_email")
+  criadoEm                DateTime @default(now()) @map("criado_em")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("lead_histories")
+}

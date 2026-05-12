@@ -4,6 +4,7 @@ import { sanitizeCNPJ } from '../utils/validateCNPJ.js';
 import { CNPJService } from '../services/cnpj.service.js';
 import { CEPService } from '../services/cep.service.js';
 import { transformCNPJData } from '../utils/transformCNPJData.js';
+import { LeadHistoryService } from '../services/leadHistory.service.js';
 import type { LeadEnrichedResponse } from '../types/enriched.types.js';
 import type { BrasilApiCEPResponse } from '../types/brasilapi.types.js';
 import { enrichLeadSchema } from '../schemas/lead.schema.js';
@@ -25,6 +26,8 @@ export async function enrichLead(req: Request, res: Response, next: NextFunction
     }
 
     const empresa = transformCNPJData(rawData, cepData);
+
+    await LeadHistoryService.saveHistory(req.user!.id, { nome, email, telefone, cnpj: rawCnpj }, empresa);
 
     const response: LeadEnrichedResponse = { nome, email, telefone, empresa };
     res.status(200).json(response);

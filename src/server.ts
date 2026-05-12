@@ -4,6 +4,8 @@ import express from 'express';
 import cors from 'cors';
 import cnpjRoutes from './routes/cnpj.routes.js';
 import leadRoutes from './routes/lead.routes.js';
+import leadHistoryRoutes from './routes/leadHistory.routes.js';
+import authRoutes from './routes/auth.routes.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 
 const app = express();
@@ -11,9 +13,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Rotas de domínio
-app.use('/cnpj', cnpjRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/leads', leadRoutes);
+app.use('/api/leads', leadHistoryRoutes);
+app.use('/cnpj', cnpjRoutes);
 
 // Middleware de erros deve ser registrado após todas as rotas
 app.use(errorHandler);
