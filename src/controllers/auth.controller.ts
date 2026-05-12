@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from 'express';
 import { registerSchema, loginSchema } from '../schemas/auth.schema.js';
 import { AuthService } from '../services/auth.service.js';
 
+// Erros de validação (ZodError) e de negócio (AppError) são capturados e encaminhados ao errorHandler
 export async function register(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const data = registerSchema.parse(req.body);

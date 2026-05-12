@@ -3,6 +3,7 @@ import type { EnrichLeadInput } from '../schemas/lead.schema.js';
 import type { EnrichedCompany } from '../types/enriched.types.js';
 
 export const LeadHistoryService = {
+  // Persiste o resultado do enriquecimento de forma desnormalizada para evitar joins na leitura
   async saveHistory(userId: string, input: EnrichLeadInput, empresa: EnrichedCompany) {
     await prisma.leadHistory.create({
       data: {
@@ -31,6 +32,7 @@ export const LeadHistoryService = {
     });
   },
 
+  // Retorna apenas os campos necessários para o frontend, ordenados do mais recente ao mais antigo
   async listByUser(userId: string) {
     return prisma.leadHistory.findMany({
       where: { userId },

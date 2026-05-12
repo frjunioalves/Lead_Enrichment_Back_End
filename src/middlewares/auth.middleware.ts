@@ -7,6 +7,7 @@ interface JwtPayload {
   email: string;
 }
 
+// Valida o Bearer JWT e popula req.user; qualquer erro de jwt.verify resulta em 401
 export function authMiddleware(req: Request, _res: Response, next: NextFunction): void {
   try {
     const authHeader = req.headers['authorization'];
@@ -14,6 +15,7 @@ export function authMiddleware(req: Request, _res: Response, next: NextFunction)
       throw new AppError(401, 'Token não fornecido.');
     }
 
+    // Remove o prefixo "Bearer " (7 caracteres) para obter o token puro
     const token = authHeader.slice(7);
     const secret = process.env['JWT_SECRET'];
     if (!secret) throw new AppError(500, 'JWT_SECRET não configurado.');

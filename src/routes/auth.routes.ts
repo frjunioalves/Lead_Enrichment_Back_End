@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { register, login } from '../controllers/auth.controller.js';
 
+// Rotas públicas de autenticação — não passam pelo authMiddleware
 const router = Router();
 
 router.post('/register', register);
