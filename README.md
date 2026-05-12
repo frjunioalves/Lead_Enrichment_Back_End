@@ -186,15 +186,19 @@ Escolhi Express pela sua simplicidade — se fosse um projeto maior provavelment
 
 ## Como a IA te ajudou a construir essa solução
 
+A principal ferramenta de IA utilizada neste projeto foi o **[Claude Code](https://claude.ai/code)** — o CLI oficial da Anthropic — com o modelo **Claude Sonnet 4.6**. O Claude Code foi integrado diretamente ao fluxo de desenvolvimento no terminal, permitindo interações contextualizadas com o código real do repositório.
+
 A IA foi utilizada principalmente para tirar dúvidas sobre features e discutir melhores formas de implementação.
 
 No início do projeto ela não foi usada com frequência para geração de código, pois a fase inicial envolveu definir a arquitetura e experimentar bibliotecas novas como Zod e Prisma. Essa exploração foi feita de forma autônoma para consolidar o entendimento antes de delegar qualquer implementação.
 
-Após essa etapa, adotei um fluxo estruturado de desenvolvimento com IA:
+Após essa etapa, adotei um fluxo estruturado de desenvolvimento com IA via **Claude Code (Sonnet 4.6)**:
 
 1. **Descrição completa da feature** — escopo, limitações, padrões a seguir e comportamento esperado eram documentados antes de qualquer código.
-2. **Geração de um arquivo `.md`** — a IA produzia um documento descrevendo a implementação proposta, que eu revisava e corrigia conforme necessário.
-3. **Implementação** — somente após o `.md` estar aprovado a IA gerava o código, e eu verificava se o resultado estava alinhado com o que havia sido especificado.
+2. **Geração de um arquivo `.md`** — o Claude Code produzia um documento descrevendo a implementação proposta, que eu revisava e corrigia conforme necessário.
+3. **Implementação** — somente após o `.md` estar aprovado o Claude Code gerava o código diretamente nos arquivos do projeto, e eu verificava se o resultado estava alinhado com o que havia sido especificado.
+
+O Claude Code com Sonnet 4.6 se destacou pela capacidade de ler, editar e criar arquivos no repositório com precisão, além de manter contexto entre múltiplas etapas de implementação — o que acelerou significativamente o desenvolvimento sem abrir mão da qualidade.
 
 Todas as decisões de arquitetura, revisão de código e validação dos resultados foram feitas por mim ao longo de todo o processo.
 
