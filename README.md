@@ -184,9 +184,7 @@ Escolhi Express pela sua simplicidade — se fosse um projeto maior provavelment
 
 ### Migração de npm para pnpm
 
-Durante o projeto migrei o gerenciador de pacotes de **npm** para **pnpm**. A motivação principal foi o cache global via hard links do pnpm, que torna as instalações significativamente mais rápidas, além de gerar um `pnpm-lock.yaml` mais determinístico e um `node_modules` menor em disco.
-
-A motivação principal foi mitigar os riscos dos recentes ataques à cadeia de suprimentos (supply chain attacks) direcionados a módulos do npm. O pnpm isola as dependências de forma mais estrita — cada pacote só tem acesso às suas próprias dependências declaradas, impedindo que um pacote malicioso acesse dependências de outros pacotes transitivamente. Isso reduz significativamente a superfície de ataque em comparação ao modelo de `node_modules` hoisting do npm.
+Durante o projeto migrei o gerenciador de pacotes de **npm** para **pnpm**. A motivação principal foi mitigar os riscos dos recentes ataques à cadeia de suprimentos (supply chain attacks) direcionados a módulos do npm. O pnpm isola as dependências de forma mais estrita — cada pacote só tem acesso às suas próprias dependências declaradas, impedindo que um pacote malicioso acesse dependências de outros pacotes transitivamente. Isso reduz significativamente a superfície de ataque em comparação ao modelo de `node_modules` hoisting do npm.
 
 A migração em si foi simples — remover `package-lock.json` e `node_modules`, rodar `pnpm install` para gerar o lockfile e ajustar o `.gitignore` — mas expôs dois bugs no Dockerfile:
 
