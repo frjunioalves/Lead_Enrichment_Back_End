@@ -163,7 +163,40 @@ O `transformCNPJData` aplica as seguintes transformações sobre o payload bruto
 
 ## Modelo de dados (Prisma)
 
-```
-User          — id, nome, email, senha (hash), criadoEm
-LeadHistory   — id, userId (FK), dados do lead, dados enriquecidos, criadoEm
-```
+![Modelagem do banco](images/1.png)
+
+---
+
+## Decisões de projeto e justificativas
+
+Escolhi Express pela sua simplicidade — se fosse um projeto maior provavelmente teria optado pelo NestJS, principalmente por ser mais robusto. Desde o princípio queria que o front-end e o back-end fossem separados, facilitando deploys independentes e reuso da API por outros clientes. Fiz esse projeto de ponta a ponta e me diverti muito: desde a concepção da arquitetura e modelagem do banco de dados até a aplicação de conceitos de DevOps como CI/CD, Docker, Gitflow e deploy na Azure Web Service.
+
+---
+
+## Como a IA te ajudou a construir essa solução
+
+A IA foi utilizada principalmente para tirar dúvidas sobre features e discutir melhores formas de implementação.
+
+No início do projeto ela não foi usada com frequência para geração de código, pois a fase inicial envolveu definir a arquitetura e experimentar bibliotecas novas como Zod e Prisma. Essa exploração foi feita de forma autônoma para consolidar o entendimento antes de delegar qualquer implementação.
+
+Após essa etapa, adotei um fluxo estruturado de desenvolvimento com IA:
+
+1. **Descrição completa da feature** — escopo, limitações, padrões a seguir e comportamento esperado eram documentados antes de qualquer código.
+2. **Geração de um arquivo `.md`** — a IA produzia um documento descrevendo a implementação proposta, que eu revisava e corrigia conforme necessário.
+3. **Implementação** — somente após o `.md` estar aprovado a IA gerava o código, e eu verificava se o resultado estava alinhado com o que havia sido especificado.
+
+Todas as decisões de arquitetura, revisão de código e validação dos resultados foram feitas por mim ao longo de todo o processo.
+
+---
+
+## Tempo gasto na execução do desafio
+
+Entre 10 e 15 horas.
+
+---
+
+## Se você tivesse mais tempo, o que teria feito?
+
+- Teria feito uma documentação melhor, listando os requisitos, e aplicado de forma mais adequada os conceitos de Gitflow.
+- **Testes automatizados**: testes de integração com Supertest + banco em memória.
+- **Refresh token**: o JWT expira em 7 dias sem renovação automática; implementaria um fluxo de refresh para manter a sessão ativa de forma segura.
