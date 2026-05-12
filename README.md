@@ -69,14 +69,16 @@ JWT_SECRET=troque_por_um_segredo_forte
 
 BRASILAPI_URL=https://brasilapi.com.br/api/
 BRASILAPI_TIMEOUT_MS=5000
+
+API_URL=https://localhost:3000
 ```
 
 #### 3. Instale dependências e rode as migrations
 
 ```bash
-npm install
-npx prisma migrate dev
-npm run dev
+pnpm install
+pnpm dlx prisma migrate dev
+pnpm dev
 ```
 
 A API estará disponível em `http://localhost:3000`.
@@ -85,9 +87,9 @@ A API estará disponível em `http://localhost:3000`.
 
 | Comando | Descrição |
 |---|---|
-| `npm run dev` | Inicia com tsx watch (HMR) |
-| `npm run build` | Compila TypeScript para `dist/` |
-| `npm run start` | Executa o build de produção |
+| `pnpm dev` | Inicia com tsx watch (HMR) |
+| `pnpm build` | Compila TypeScript para `dist/` |
+| `pnpm start` | Executa o build de produção |
 
 ## Documentação
 
