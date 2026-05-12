@@ -16,6 +16,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    networks:
+      - enrichleads
 
   api:
     build: .
@@ -32,6 +34,12 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    networks:
+      - enrichleads
+
+networks:
+  enrichleads:
+    driver: bridge
 
 volumes:
   postgres_data:
